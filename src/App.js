@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import react from 'react';
+import "./App.css";
+import {Route, Routes} from "react-router-dom";
+
+import Home from './components/Home';
+import NavBar from './components/Navbar';
+// import Counter from './components/Counter';
+import CounterRedux from './components/CounterRedux';
+import Employee from './components/EmployeeRedux';
+import UserList from './components/UserListRedux';
+
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <react.Fragment>
+      <NavBar/>
+      <Routes>
+        <Route path= {'/'} element = {<Home/>}/>
+        <Route path= {'/employees'} element = {<Employee/>}/>
+        <Route path= {'/counter'} element = {<CounterRedux/>}/>
+        <Route path= {'/users'} element = {<UserList/>}/>
+      </Routes>
+    </react.Fragment>
   );
 }
 
