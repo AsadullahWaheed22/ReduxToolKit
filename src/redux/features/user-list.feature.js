@@ -1,41 +1,35 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
+const initialState = {
+  loading: false,
+  users: [],
+  errorMessage: null,
+};
 
-const initialState =
-  {
-    loading : false,
-    users : [],
-    errorMessage : ''
-  };
+// https://redux-toolkit.js.org/api/createAsyncThunk
+export const getUsers = createAsyncThunk("users/getUsers", async () => {
+  const dataUrl = "https://jsonplaceholder.typicode.com/users";
+  const response = await axios.get(dataUrl);
+  return response.data;
+});
 
-export const getUsers = createAsyncThunk(
-  'users/getUsers',
-  async( ) => {
-    let dataUrl = `https://jsonplaceholder.typicode.com/users`;
-    let response = await axios.get(dataUrl);
-    return response.data;
-  });
-
-const userListSlice = createSlice(
-  {
-    name : 'users',
-    initialState : initialState,
-    extrareducers : (builder) => {
-      builder.addCase(getUsers.pending, (state, action) => {
+const userListSlice = createSlice({
+  name: "users",
+  initialState,
+  extraReducers: (builder) => {
+    builder
+      .addCase(getUsers.pending, (state, action) => {
         state.loading = true;
       })
       .addCase(getUsers.fulfilled, (state, action) => {
         state.loading = false;
-
         state.users = action.payload;
       })
       .addCase(getUsers.rejected, (state, action) => {
         state.loading = false;
-        state.errorMessage = 'Oops! Something went wrong'
-      })
-    }
-  }
-);
-
+        state.errorMessage = "Oops! Something goes wrong!";
+      });
+  },
+});
 export default userListSlice.reducer;
